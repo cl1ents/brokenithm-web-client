@@ -5,20 +5,7 @@ import path from "path";
 import { WebSocketServer } from "ws";
 import { brokenithm } from "./brokenithm.ts"
 
-
 async function main() {
-    /*
-    const brokenClient = new brokenithm();
-    //brokenClient.emitter.on("led", console.log);
-
-    process.on("SIGINT", () => {
-        console.log("Shutting down...");
-
-        brokenClient.destroy();
-        process.exit(0);
-    });
-    */
-
     const app = express();
 
     // Serve ./www
@@ -62,9 +49,30 @@ async function main() {
             }
         });
 
-        brokenClient.emitter.on("led", colors => {
 
+        brokenClient.emitter.on("led", rawColors => {
+            //console.log(rawColors.length / 3)
+            const colors = []
+
+            for (let i = 0; i < 32; i++) {
+                let index = i * 3
+                let blue = (rawColors[index] || 0) & 0xff
+                let red = (rawColors[index + 1] || 0) & 0xff
+                let green = (rawColors[index + 2] || 0) & 0xff
+                //let color = 0xff000000 or(red.toLong() shl 16) or(green.toLong() shl 8) or blue.toLong()
+                index = (31 - i) * 3
+                colors[index] = red
+                colors[index + 1] = green
+                colors[index + 2] = blue
+            }
+
+            const buf = Buffer.from(new Uint8Array(colors))
+
+            //console.log(colors, rawColors)
+
+            ws.send(buf)
         })
+
 
         ws.on("close", () => {
             console.log("ws disconnected");
