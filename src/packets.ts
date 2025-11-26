@@ -1,4 +1,4 @@
-// packets.ts
+// Shoutout ChatGPT
 import {
     u8, u16, u32, u64,
     arr, str, struct, union,
