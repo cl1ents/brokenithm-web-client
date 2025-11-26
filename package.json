@@ -1,0 +1,19 @@
+{
+  "name": "broken-evo-web",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.5",
+    "@types/ws": "^8.18.1",
+    "dgram": "^1.0.1",
+    "express": "^5.1.0",
+    "ws": "^8.18.3"
+  }
+}
